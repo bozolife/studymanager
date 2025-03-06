@@ -3,236 +3,357 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyManager - Wirtschaftsinformatik</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <!-- Change this line in your index.html -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-  <style>
-    .debug-panel {
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
-      border-radius: 4px;
-      padding: 10px;
-      margin-bottom: 15px;
-    }
-    .debug-panel.success {
-      background-color: #d4edda;
-      border-color: #c3e6cb;
-    }
-    .debug-panel pre {
-      background: #f8f9fa;
-      padding: 10px;
-      border-radius: 4px;
-      max-height: 150px;
-      overflow: auto;
-    }
-    .debug-toggle {
-      cursor: pointer;
-      text-decoration: underline;
-      color: #0056b3;
-      font-size: 0.8rem;
-      text-align: right;
-      display: block;
-      margin-bottom: 5px;
-    }
-  </style>
+  <title>StudyManager</title>
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/main.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Chart.js for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>StudyManager</h1>
-      <p>Wirtschaftsinformatik at FernUni</p>
+      <p>Track your academic progress and stay organized</p>
     </header>
-
+    
     <nav>
       <ul>
-        <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="#" data-page="courses"><i class="fas fa-book"></i> Courses</a></li>
-        <li><a href="#" data-page="assignments"><i class="fas fa-tasks"></i> Assignments</a></li>
-        <li><a href="#" data-page="exams"><i class="fas fa-file-alt"></i> Exams</a></li>
-        <li><a href="#" data-page="study-sessions"><i class="fas fa-clock"></i> Study Sessions</a></li>
-        <li><a href="#" data-page="materials"><i class="fas fa-file-pdf"></i> Materials</a></li>
+        <li><a href="#" data-page="dashboard-page" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="#" data-page="courses-page"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+        <li><a href="#" data-page="assignments-page"><i class="fas fa-tasks"></i> Assignments</a></li>
+        <li><a href="#" data-page="exams-page"><i class="fas fa-file-alt"></i> Exams</a></li>
+        <li><a href="#" data-page="materials-page"><i class="fas fa-book"></i> Materials</a></li>
+        <li><a href="#" data-page="calendar-page"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+        <li><a href="#" data-page="settings-page"><i class="fas fa-cog"></i> Settings</a></li>
       </ul>
     </nav>
-
+    
     <main>
-      <a class="debug-toggle" id="toggle-debug" href="#">Show Debug Panel</a>
-      <div id="debug-panel" class="debug-panel" style="display:none;">
-        <h3>Debug Panel</h3>
-        <div id="debug-status">Testing API connectivity...</div>
-        <div id="debug-log"></div>
-      </div>
-
       <!-- Dashboard Page -->
-      <section id="dashboard" class="page active">
+      <div id="dashboard-page" class="page active">
         <h2>Dashboard</h2>
         
         <div class="dashboard-grid">
           <div class="dashboard-card">
-            <h3>Upcoming Assignments</h3>
-            <div id="upcoming-assignments">
-              <p>Loading...</p>
-            </div>
-          </div>
-          
-          <div class="dashboard-card">
             <h3>Current Courses</h3>
             <div id="current-courses">
-              <p>Loading...</p>
+              <p>Loading current courses...</p>
             </div>
           </div>
           
           <div class="dashboard-card">
-            <h3>Study Time This Week</h3>
+            <h3>Upcoming Assignments</h3>
+            <div id="upcoming-assignments">
+              <p>Loading upcoming assignments...</p>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <h3>Upcoming Exams</h3>
+            <div id="upcoming-exams">
+              <p>Loading upcoming exams...</p>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <h3>Study Time</h3>
             <div class="chart-container">
               <canvas id="study-time-chart"></canvas>
             </div>
           </div>
-          
-          <div class="dashboard-card">
-            <h3>Next Exams</h3>
-            <div id="upcoming-exams">
-              <p>No upcoming exams</p>
-            </div>
-          </div>
         </div>
-      </section>
-
+      </div>
+      
       <!-- Courses Page -->
-      <section id="courses" class="page">
+      <div id="courses-page" class="page">
         <div class="page-header">
-          <h2>Courses</h2>
-          <button id="add-course-btn" class="btn"><i class="fas fa-plus"></i> Add Course</button>
+          <h2>My Courses</h2>
+          <button id="add-course-btn" class="btn">
+            <i class="fas fa-plus"></i> Add Course
+          </button>
         </div>
         
-        <div class="course-cards" id="course-list">
+        <div id="course-list" class="course-cards">
           <p>Loading courses...</p>
         </div>
-        
-        <!-- Add Course Modal -->
-        <div id="add-course-modal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Add New Course</h3>
-            <form id="add-course-form">
-              <div class="form-group">
-                <label for="course-name">Course Name:</label>
-                <input type="text" id="course-name" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-code">Course Code:</label>
-                <input type="text" id="course-code" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-credits">Credits:</label>
-                <input type="number" id="course-credits" min="0" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-start">Start Date:</label>
-                <input type="date" id="course-start" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-end">End Date:</label>
-                <input type="date" id="course-end" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-status">Status:</label>
-                <select id="course-status" required>
-                  <option value="planned">Planned</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                  <option value="failed">Failed</option>
-                </select>
-              </div>
-              
-              <button type="submit" class="btn btn-primary">Add Course</button>
-            </form>
-          </div>
-        </div>
-      </section>
-
+      </div>
+      
       <!-- Assignments Page -->
-      <section id="assignments" class="page">
+      <div id="assignments-page" class="page">
         <div class="page-header">
-          <h2>Assignments</h2>
-          <button id="add-assignment-btn" class="btn"><i class="fas fa-plus"></i> Add Assignment</button>
+          <h2>My Assignments</h2>
+          <button id="add-assignment-btn" class="btn">
+            <i class="fas fa-plus"></i> Add Assignment
+          </button>
         </div>
         
-        <div class="assignments-list" id="assignments-container">
+        <div id="assignments-container" class="assignments-list">
           <p>Loading assignments...</p>
         </div>
-        
-        <!-- Add Assignment Modal -->
-        <div id="add-assignment-modal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Add New Assignment</h3>
-            <form id="add-assignment-form">
-              <div class="form-group">
-                <label for="assignment-title">Title:</label>
-                <input type="text" id="assignment-title" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="assignment-description">Description:</label>
-                <textarea id="assignment-description" rows="3"></textarea>
-              </div>
-              
-              <div class="form-group">
-                <label for="assignment-course">Course:</label>
-                <select id="assignment-course" required>
-                  <option value="">Select a course</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="assignment-due">Due Date:</label>
-                <input type="date" id="assignment-due" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="assignment-status">Status:</label>
-                <select id="assignment-status" required>
-                  <option value="pending">Pending</option>
-                  <option value="submitted">Submitted</option>
-                  <option value="graded">Graded</option>
-                </select>
-              </div>
-              
-              <button type="submit" class="btn btn-primary">Add Assignment</button>
-            </form>
-          </div>
+      </div>
+      
+      <!-- Exams Page -->
+      <div id="exams-page" class="page">
+        <div class="page-header">
+          <h2>My Exams</h2>
+          <button id="add-exam-btn" class="btn">
+            <i class="fas fa-plus"></i> Add Exam
+          </button>
         </div>
-      </section>
-
-      <!-- Additional pages (Exams, Study Sessions, Materials) would go here -->
-      <section id="exams" class="page">
-        <h2>Exams</h2>
-        <p>Exam management features coming soon...</p>
-      </section>
-
-      <section id="study-sessions" class="page">
-        <h2>Study Sessions</h2>
-        <p>Study session tracking features coming soon...</p>
-      </section>
-
-      <section id="materials" class="page">
-        <h2>Study Materials</h2>
-        <p>Study material organization features coming soon...</p>
-      </section>
+        
+        <div id="exams-container" class="exams-list">
+          <p>Loading exams...</p>
+        </div>
+      </div>
+      
+      <!-- Materials Page -->
+      <div id="materials-page" class="page">
+        <div class="page-header">
+          <h2>Learning Materials</h2>
+          <button id="add-material-btn" class="btn">
+            <i class="fas fa-plus"></i> Add Material
+          </button>
+        </div>
+        
+        <div id="materials-container" class="materials-list">
+          <p>Loading learning materials...</p>
+        </div>
+      </div>
+      
+      <!-- Calendar Page -->
+      <div id="calendar-page" class="page">
+        <h2>Calendar</h2>
+        <p>Calendar feature coming soon!</p>
+      </div>
+      
+      <!-- Settings Page -->
+      <div id="settings-page" class="page">
+        <h2>Settings</h2>
+        <p>Settings feature coming soon!</p>
+        
+        <div class="mt-4">
+          <a href="#" id="toggle-debug" class="btn btn-secondary">
+            Show Debug Panel
+          </a>
+        </div>
+        
+        <div id="debug-panel">
+          <div id="debug-status">Debug Panel</div>
+          <div id="debug-log"></div>
+        </div>
+      </div>
     </main>
-
+    
     <footer>
-      <p>&copy; 2025 StudyManager</p>
+      <p>&copy; 2025 StudyManager. All rights reserved.</p>
     </footer>
   </div>
-
-  <script src="app.js"></script>
+  
+  <!-- Course Modal -->
+  <div id="add-course-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add New Course</h2>
+      
+      <form id="add-course-form">
+        <div class="form-group">
+          <label for="course-name">Course Name*</label>
+          <input type="text" id="course-name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="course-code">Course Code*</label>
+          <input type="text" id="course-code" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="course-credits">Credits*</label>
+          <input type="number" id="course-credits" min="1" max="12" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="course-start">Start Date*</label>
+          <input type="date" id="course-start" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="course-end">End Date*</label>
+          <input type="date" id="course-end" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="course-status">Status*</label>
+          <select id="course-status" required>
+            <option value="planned">Planned</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Add Course</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Assignment Modal -->
+  <div id="add-assignment-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add New Assignment</h2>
+      
+      <form id="add-assignment-form">
+        <div class="form-group">
+          <label for="assignment-title">Assignment Title*</label>
+          <input type="text" id="assignment-title" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="assignment-description">Description</label>
+          <textarea id="assignment-description" rows="3"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="assignment-course">Course*</label>
+          <select id="assignment-course" required>
+            <option value="">Select a course</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="assignment-due">Due Date*</label>
+          <input type="date" id="assignment-due" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="assignment-status">Status*</label>
+          <select id="assignment-status" required>
+            <option value="pending">Pending</option>
+            <option value="submitted">Submitted</option>
+            <option value="graded">Graded</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Add Assignment</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Exam Modal -->
+  <div id="add-exam-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add New Exam</h2>
+      
+      <form id="add-exam-form">
+        <div class="form-group">
+          <label for="exam-title">Exam Title*</label>
+          <input type="text" id="exam-title" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-description">Description</label>
+          <textarea id="exam-description" rows="3"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-course">Course*</label>
+          <select id="exam-course" required>
+            <option value="">Select a course</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-date">Exam Date*</label>
+          <input type="datetime-local" id="exam-date" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-duration">Duration (minutes)</label>
+          <input type="number" id="exam-duration" min="15" step="15">
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-location">Location</label>
+          <input type="text" id="exam-location">
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-status">Status*</label>
+          <select id="exam-status" required>
+            <option value="upcoming">Upcoming</option>
+            <option value="completed">Completed</option>
+            <option value="passed">Passed</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+        
+        <div class="form-group exam-grade-container">
+          <label for="exam-grade">Grade</label>
+          <input type="number" id="exam-grade" min="1.0" max="5.0" step="0.1">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Add Exam</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Material Modal -->
+  <div id="add-material-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add Learning Material</h2>
+      
+      <form id="add-material-form">
+        <div class="form-group">
+          <label for="material-title">Title*</label>
+          <input type="text" id="material-title" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="material-description">Description</label>
+          <textarea id="material-description" rows="3"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="material-course">Course*</label>
+          <select id="material-course" required>
+            <option value="">Select a course</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="material-type">Type*</label>
+          <select id="material-type" required>
+            <option value="book">Book</option>
+            <option value="article">Article</option>
+            <option value="video">Video</option>
+            <option value="website">Website</option>
+            <option value="notes">Notes</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="material-url">URL</label>
+          <input type="url" id="material-url">
+        </div>
+        
+        <div class="form-group">
+          <label for="material-required">
+            <input type="checkbox" id="material-required">
+            Required Material
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Add Material</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- JavaScript Modules -->
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
