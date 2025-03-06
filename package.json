@@ -1,0 +1,27 @@
+{
+  "name": "studymanager",
+  "version": "1.0.0",
+  "description": "A study management system for Wirtschaftsinformatik studies",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "init-db": "psql -U postgres -f schema.sql"
+  },
+  "keywords": [
+    "study",
+    "management",
+    "wirtschaftsinformatik",
+    "fernuni"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
