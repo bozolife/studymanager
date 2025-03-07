@@ -1,0 +1,107 @@
+/* dark-theme.css - Simple Dark Blue Theme for StudyManager */
+
+body {
+    background-color: #0f172a !important;
+    color: #f8f9fa !important;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
+  }
+  
+  /* Main content area */
+  main {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+  }
+  
+  /* Cards and items */
+  .dashboard-card, 
+  .course-card, 
+  .pixel-card, 
+  .material-item, 
+  .assignment-item, 
+  .exam-item,
+  .upcoming-exam,
+  .dashboard-list li {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f8f9fa !important;
+  }
+  
+  .dashboard-card::before, 
+  .course-card::before, 
+  .material-item::before, 
+  .assignment-item::before, 
+  .exam-item::before {
+    background-color: #080d17 !important;
+  }
+  
+  /* Form elements */
+  input, select, textarea, .pixel-input {
+    background-color: #2a3a51 !important;
+    border-color: #334155 !important;
+    color: #f8f9fa !important;
+  }
+  
+  /* Modal content */
+  .modal-content {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f8f9fa !important;
+  }
+  
+  /* Debug panel */
+  #debug-panel {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+  }
+  
+  #debug-log {
+    background-color: #080d17 !important;
+    color: #f8f9fa !important;
+  }
+  
+  /* Enhanced exam styles */
+  .upcoming-exam {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 3px solid #f72585;
+  }
+  
+  .exam-countdown {
+    font-weight: bold;
+    color: #f72585;
+  }
+  
+  .dashboard-list li {
+    margin-bottom: 8px;
+    border-left: 3px solid #f72585;
+  }
+  
+  .list-item-title {
+    color: #f8f9fa !important;
+  }
+  
+  .list-item-subtitle {
+    color: #cbd5e1 !important;
+  }
+  
+  /* Override any text colors for better contrast */
+  h1, h2, h3, h4, h5, h6 {
+    color: #f8f9fa !important;
+  }
+  
+  .dashboard-card h3, 
+  .course-card h3, 
+  .pixel-card h3 {
+    border-bottom-color: #334155 !important;
+  }
+  
+  /* Make links more visible */
+  a {
+    color: #4cc9f0 !important;
+  }
+  
+  a:hover {
+    color: #f72585 !important;
+  }

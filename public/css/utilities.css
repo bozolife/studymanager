@@ -135,3 +135,279 @@
     .d-lg-block { display: block; }
     .d-lg-flex { display: flex; }
   }
+
+  /* Pixel Animations CSS */
+
+/* Pixel explosion effect */
+@keyframes pixel-explosion {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(var(--direction-x, 1) * 30px),
+      calc(var(--direction-y, 1) * 30px)
+    ) rotate(calc(var(--rotation, 1) * 90deg));
+    opacity: 0;
+  }
+}
+
+/* Floating animation */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 3D Rotation */
+@keyframes rotate-3d {
+  0% { transform: perspective(1000px) rotateY(0deg); }
+  100% { transform: perspective(1000px) rotateY(360deg); }
+}
+
+/* Pixelate In */
+@keyframes pixelate-in {
+  0% {
+    filter: blur(5px);
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    filter: blur(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Typing effect for headings */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--pixel-accent); }
+}
+
+/* Border animation */
+@keyframes border-pulse {
+  0% { border-color: var(--pixel-primary); }
+  50% { border-color: var(--pixel-accent); }
+  100% { border-color: var(--pixel-primary); }
+}
+
+/* Shake animation for buttons on click */
+@keyframes pixel-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(0); }
+  75% { transform: translateX(2px); }
+}
+
+/* Loading spinner animation */
+@keyframes spin-pixel {
+  0% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(90deg) translateY(-3px); }
+  50% { transform: rotate(180deg) translateY(0); }
+  75% { transform: rotate(270deg) translateY(-3px); }
+  100% { transform: rotate(360deg) translateY(0); }
+}
+
+/* Apply animations to elements */
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.rotate-3d {
+  animation: rotate-3d 10s linear infinite;
+}
+
+.pixelate-in {
+  animation: pixelate-in 0.5s forwards;
+}
+
+.glitch {
+  animation: glitch 0.2s infinite;
+  animation-play-state: paused;
+}
+
+.glitch:hover {
+  animation-play-state: running;
+}
+
+/* Typing effect for headings */
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid var(--pixel-accent);
+  width: 0;
+  animation: 
+    typing 2s steps(30, end) forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+/* Pulsing border */
+.pulse-border {
+  animation: border-pulse 2s infinite;
+}
+
+/* Pixel shake effect (add with JS on click) */
+.pixel-shake {
+  animation: pixel-shake 0.2s 2;
+}
+
+/* Pixel loader */
+.pixel-loader {
+  width: 30px;
+  height: 30px;
+  background-color: var(--pixel-primary);
+  display: inline-block;
+  animation: spin-pixel 1.5s infinite;
+  position: relative;
+}
+
+.pixel-loader::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+}
+
+/* Loading text animation */
+.loading-text::after {
+  content: '.';
+  animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+  100% { content: '.'; }
+}
+
+/* Card enter animation */
+.card-enter {
+  animation: pixelate-in 0.5s forwards;
+}
+
+/* Pixel art logo animation */
+.pixel-logo:hover {
+  animation: pixel-shake 0.3s infinite;
+}
+
+/* Progress bar animation */
+@keyframes progress-fill {
+  from { width: 0; }
+  to { width: var(--fill-width, 100%); }
+}
+
+.progress-bar .fill {
+  animation: progress-fill 1s ease-out forwards;
+}
+
+/* Notification popup animation */
+@keyframes notification-enter {
+  0% { 
+    transform: translateY(-20px); 
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  100% { 
+    transform: translateY(0); 
+    opacity: 1;
+  }
+}
+
+.notification {
+  animation: notification-enter 0.3s forwards;
+}
+
+/* Page transition animation */
+@keyframes page-enter {
+  from {
+    transform: translateY(10px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.page.active {
+  animation: page-enter 0.5s forwards;
+}
+
+/* Apply loading spinner */
+.loading-element {
+  position: relative;
+  min-height: 100px;
+}
+
+.loading-element::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background-color: var(--pixel-primary);
+  animation: spin-pixel 1.5s infinite;
+}
+
+.loading-element::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  background-color: white;
+  z-index: 1;
+}

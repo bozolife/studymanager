@@ -22,6 +22,12 @@ export async function loadExams() {
     exams = await fetchData('exams');
     logDebug(`Loaded ${exams.length} exams`);
     
+    // Debug log exams to check date and status
+    logDebug('Exams data:');
+    exams.forEach(exam => {
+      logDebug(`Exam: ${exam.title}, Date: ${exam.date}, Status: ${exam.status}`);
+    });
+    
     // Render exams in UI
     renderExams();
     renderUpcomingExams();
@@ -79,21 +85,21 @@ export function renderExams() {
     const gradeDisplay = exam.grade ? `Grade: ${exam.grade}` : '';
     
     html += `
-      <div class="exam-item">
+      <div class="exam-item transform-3d">
         <div class="exam-status ${statusClass}"></div>
         <div class="exam-info">
           <span class="exam-title">${exam.title}</span>
           <span class="exam-course">${courseName}</span>
         </div>
         <div class="exam-details">
-          <div>Date: ${formatDate(exam.exam_date)}</div>
+          <div>Date: ${formatDate(exam.date)}</div>
           ${exam.location ? `<div>Location: ${exam.location}</div>` : ''}
           ${durationText ? `<div>Duration: ${durationText}</div>` : ''}
           ${gradeDisplay ? `<div>${gradeDisplay}</div>` : ''}
         </div>
         <div class="exam-actions">
-          <button class="btn btn-sm" onclick="viewExamDetails(${exam.id})">Details</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteExam(${exam.id})">Delete</button>
+          <button class="btn btn-sm pixel-button" onclick="viewExamDetails(${exam.id})">Details</button>
+          <button class="btn btn-sm btn-danger pixel-button" onclick="deleteExam(${exam.id})">Delete</button>
         </div>
       </div>
     `;
@@ -101,21 +107,28 @@ export function renderExams() {
   
   examsContainer.innerHTML = html;
   logDebug('Exams rendered');
+  
+  // Apply 3D effects if available
+  if (typeof applyTiltEffect === 'function') {
+    document.querySelectorAll('.exam-item').forEach(item => {
+      applyTiltEffect(item);
+    });
+  }
 }
 
 // Get exam status class
 function getExamStatusClass(status) {
   switch (status) {
     case 'upcoming':
-      return 'status-upcoming';
+      return 'upcoming'; // Changed to match new CSS classes
     case 'completed':
-      return 'status-completed';
+      return 'completed';
     case 'passed':
-      return 'status-passed';
+      return 'passed';
     case 'failed':
-      return 'status-failed';
+      return 'failed';
     default:
-      return 'status-upcoming';
+      return 'upcoming';
   }
 }
 
@@ -129,11 +142,18 @@ export function renderUpcomingExams() {
     return;
   }
   
-  // Filter for upcoming exams
+  // Filter for upcoming exams - using date field from DB
   const now = new Date();
   const upcoming = exams
-    .filter(exam => new Date(exam.exam_date) > now && exam.status === 'upcoming')
-    .sort((a, b) => new Date(a.exam_date) - new Date(b.exam_date))
+    .filter(exam => {
+      // Debug log to help troubleshoot upcoming exam detection
+      const examDate = new Date(exam.date);
+      logDebug(`Exam ${exam.title}: Date=${exam.date}, Status=${exam.status}, IsUpcoming=${examDate > now && exam.status === 'upcoming'}`);
+      
+      // Now properly check both date and status
+      return examDate > now && exam.status === 'upcoming';
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(0, 3);
   
   if (upcoming.length === 0) {
@@ -141,16 +161,38 @@ export function renderUpcomingExams() {
     return;
   }
   
-  let html = '<ul class="dashboard-list">';
+  // Enhanced upcoming exams display
+  let html = '<div class="dashboard-exam-list">';
   upcoming.forEach(exam => {
+    // Calculate days until exam
+    const examDate = new Date(exam.date);
+    const daysUntil = Math.ceil((examDate - now) / (1000 * 60 * 60 * 24));
+    
+    // Format days until text
+    let daysUntilText;
+    if (daysUntil === 0) {
+      daysUntilText = 'Today!';
+    } else if (daysUntil === 1) {
+      daysUntilText = 'Tomorrow';
+    } else {
+      daysUntilText = `In ${daysUntil} days`;
+    }
+    
     html += `
-      <li>
-        <span class="list-item-title">${exam.title}</span>
-        <span class="list-item-subtitle">${exam.course_name || 'Unknown Course'} - ${formatDate(exam.exam_date)}</span>
-      </li>
+      <div class="upcoming-exam transform-3d">
+        <div class="exam-title">${exam.title}</div>
+        <div class="exam-meta">
+          <span class="exam-course">${exam.course_name || 'Unknown Course'}</span>
+          <span class="exam-countdown float">${daysUntilText}</span>
+        </div>
+        <div class="exam-date">
+          <i class="fas fa-calendar-alt"></i> 
+          ${formatDate(exam.date)}
+        </div>
+      </div>
     `;
   });
-  html += '</ul>';
+  html += '</div>';
   
   upcomingExamsEl.innerHTML = html;
   logDebug('Upcoming exams rendered');
@@ -177,11 +219,6 @@ export async function addExam(examData) {
   logDebug('Adding new exam:');
   logDebug(examData);
   
-  // Remove description field if present since our DB doesn't have it
-  if (examData.description) {
-    delete examData.description;
-  }
-  
   try {
     // Post exam to API
     const exam = await postData('exams', examData);
@@ -195,10 +232,21 @@ export async function addExam(examData) {
     closeModal('add-exam-modal');
     document.getElementById('add-exam-form').reset();
     
-    alert('Exam added successfully!');
+    // Use notification if available
+    if (typeof showPixelNotification === 'function') {
+      showPixelNotification('Exam added successfully!', 'success');
+    } else {
+      alert('Exam added successfully!');
+    }
   } catch (error) {
     logDebug(`Error adding exam: ${error.message}`);
-    alert(`Error adding exam: ${error.message}`);
+    
+    // Use notification if available
+    if (typeof showPixelNotification === 'function') {
+      showPixelNotification(`Error adding exam: ${error.message}`, 'error');
+    } else {
+      alert(`Error adding exam: ${error.message}`);
+    }
   }
 }
 
@@ -229,10 +277,22 @@ export async function deleteExam(examId) {
     renderUpcomingExams();
     
     logDebug('Exam deleted successfully');
-    alert('Exam deleted successfully');
+    
+    // Use notification if available
+    if (typeof showPixelNotification === 'function') {
+      showPixelNotification('Exam deleted successfully', 'success');
+    } else {
+      alert('Exam deleted successfully');
+    }
   } catch (error) {
     logDebug(`Error deleting exam: ${error.message}`);
-    alert(`Error deleting exam: ${error.message}`);
+    
+    // Use notification if available
+    if (typeof showPixelNotification === 'function') {
+      showPixelNotification(`Error deleting exam: ${error.message}`, 'error');
+    } else {
+      alert(`Error deleting exam: ${error.message}`);
+    }
   }
 }
 
@@ -251,7 +311,7 @@ export function viewExamDetails(examId) {
   alert(`
     Exam: ${exam.title}
     Course: ${exam.course_name || 'Unknown'}
-    Date: ${formatDate(exam.exam_date)}
+    Date: ${formatDate(exam.date)}
     ${exam.location ? `Location: ${exam.location}` : ''}
     ${exam.duration ? `Duration: ${exam.duration} minutes` : ''}
     Status: ${exam.status}

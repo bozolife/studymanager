@@ -1,146 +1,125 @@
-/* layout.css - Layout Styles */
+/* layout.css - Grid Layout for StudyManager */
 
-/* Container layout */
+/* Main container layout */
 .container {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-      "header header"
-      "nav main"
-      "footer footer";
-    min-height: 100vh;
-  }
-  
-  /* Header */
-  header {
-    grid-area: header;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  header h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-  }
-  
-  /* Navigation */
-  nav {
-    grid-area: nav;
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 1rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    "header"
+    "nav"
+    "main"
+    "footer";
+  width: 100%;
+}
+
+/* Header area */
+header {
+  grid-area: header;
+  width: 100%;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Navigation area */
+nav {
+  grid-area: nav;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* Main content area */
+main {
+  grid-area: main;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Footer area */
+footer {
+  grid-area: footer;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Dashboard grid layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Settings grid layout */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Theme selector layout */
+.theme-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.theme-option {
+  flex: 1;
+  min-width: 100px;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Modal layout */
+.modal-content {
+  margin: 10% auto;
+  max-width: 500px;
+  width: 90%;
+}
+
+/* Media queries for responsive layout */
+@media (max-width: 768px) {
+  .dashboard-grid,
+  .settings-grid {
+    grid-template-columns: 1fr;
   }
   
   nav ul {
-    list-style: none;
+    flex-direction: column;
   }
   
-  nav ul li {
-    padding: 0.5rem 0;
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
-  
-  nav ul li a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-  }
-  
-  nav ul li a i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-  }
-  
-  nav ul li a:hover,
-  nav ul li a.active {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-left: 3px solid var(--primary-color);
-  }
-  
-  /* Main content */
-  main {
-    grid-area: main;
-    padding: 1.5rem;
-    overflow-y: auto;
-  }
-  
-  /* Footer */
-  footer {
-    grid-area: footer;
-    background-color: var(--secondary-color);
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.9rem;
-  }
-  
-  /* Page layout */
-  .page {
-    display: none;
-  }
-  
-  .page.active {
-    display: block;
-  }
-  
-  /* Dashboard grid layout */
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  /* Course grid layout */
-  .course-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "header"
-        "nav"
-        "main"
-        "footer";
-    }
-    
-    nav {
-      padding: 0.5rem;
-    }
-    
-    nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    nav ul li {
-      padding: 0;
-    }
-    
-    nav ul li a {
-      padding: 0.5rem;
-      border-left: none;
-      border-bottom: 3px solid transparent;
-    }
-    
-    nav ul li a:hover,
-    nav ul li a.active {
-      border-left: none;
-      border-bottom: 3px solid var(--primary-color);
-    }
-  }
+}
+
+/* Make sure all full-width elements respect container */
+.page {
+  width: 100%;
+}
+
+.page-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Fix width issues with lists */
+.course-cards,
+.assignments-list,
+.exams-list,
+.materials-list {
+  width: 100%;
+}

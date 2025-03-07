@@ -10,15 +10,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Chart.js for charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- 3D Pixelated Effects -->
+  <script type="module" src="js/ui/3d-effects.js"></script>
+  <script type="module" src="js/ui/pixelated-charts.js"></script>
 </head>
-<body>
+<body class="pixel-theme">
   <div class="container">
-    <header>
+    <header class="transform-3d">
       <h1>StudyManager</h1>
       <p>Track your academic progress and stay organized</p>
     </header>
     
-    <nav>
+    <nav class="pixel-nav">
       <ul>
         <li><a href="#" data-page="dashboard-page" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <li><a href="#" data-page="courses-page"><i class="fas fa-graduation-cap"></i> Courses</a></li>
@@ -30,34 +33,34 @@
       </ul>
     </nav>
     
-    <main>
+    <main class="pixel-container">
       <!-- Dashboard Page -->
       <div id="dashboard-page" class="page active">
         <h2>Dashboard</h2>
         
         <div class="dashboard-grid">
-          <div class="dashboard-card">
+          <div class="dashboard-card transform-3d">
             <h3>Current Courses</h3>
             <div id="current-courses">
               <p>Loading current courses...</p>
             </div>
           </div>
           
-          <div class="dashboard-card">
+          <div class="dashboard-card transform-3d">
             <h3>Upcoming Assignments</h3>
             <div id="upcoming-assignments">
               <p>Loading upcoming assignments...</p>
             </div>
           </div>
           
-          <div class="dashboard-card">
+          <div class="dashboard-card transform-3d">
             <h3>Upcoming Exams</h3>
             <div id="upcoming-exams">
               <p>Loading upcoming exams...</p>
             </div>
           </div>
           
-          <div class="dashboard-card">
+          <div class="dashboard-card transform-3d">
             <h3>Study Time</h3>
             <div class="chart-container">
               <canvas id="study-time-chart"></canvas>
@@ -70,7 +73,7 @@
       <div id="courses-page" class="page">
         <div class="page-header">
           <h2>My Courses</h2>
-          <button id="add-course-btn" class="btn">
+          <button id="add-course-btn" class="btn pixel-button">
             <i class="fas fa-plus"></i> Add Course
           </button>
         </div>
@@ -84,7 +87,7 @@
       <div id="assignments-page" class="page">
         <div class="page-header">
           <h2>My Assignments</h2>
-          <button id="add-assignment-btn" class="btn">
+          <button id="add-assignment-btn" class="btn pixel-button">
             <i class="fas fa-plus"></i> Add Assignment
           </button>
         </div>
@@ -98,7 +101,7 @@
       <div id="exams-page" class="page">
         <div class="page-header">
           <h2>My Exams</h2>
-          <button id="add-exam-btn" class="btn">
+          <button id="add-exam-btn" class="btn pixel-button">
             <i class="fas fa-plus"></i> Add Exam
           </button>
         </div>
@@ -112,7 +115,7 @@
       <div id="materials-page" class="page">
         <div class="page-header">
           <h2>Learning Materials</h2>
-          <button id="add-material-btn" class="btn">
+          <button id="add-material-btn" class="btn pixel-button">
             <i class="fas fa-plus"></i> Add Material
           </button>
         </div>
@@ -125,23 +128,39 @@
       <!-- Calendar Page -->
       <div id="calendar-page" class="page">
         <h2>Calendar</h2>
-        <p>Calendar feature coming soon!</p>
+        <div class="pixel-card tilt-element">
+          <p>Calendar feature coming soon!</p>
+          <div class="pixel-art-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
       </div>
       
       <!-- Settings Page -->
       <div id="settings-page" class="page">
         <h2>Settings</h2>
-        <p>Settings feature coming soon!</p>
         
-        <div class="mt-4">
-          <a href="#" id="toggle-debug" class="btn btn-secondary">
-            Show Debug Panel
-          </a>
-        </div>
-        
-        <div id="debug-panel">
-          <div id="debug-status">Debug Panel</div>
-          <div id="debug-log"></div>
+        <div class="settings-grid">
+          <div class="pixel-card transform-3d">
+            <h3>UI Theme</h3>
+            <div class="theme-selector">
+              <button class="theme-option active" data-theme="pixel-3d">3D Pixelated</button>
+              <button class="theme-option" data-theme="pixel-flat">Flat Pixel</button>
+              <button class="theme-option" data-theme="standard">Standard</button>
+            </div>
+          </div>
+          
+          <div class="pixel-card transform-3d">
+            <h3>Debug Options</h3>
+            <a href="#" id="toggle-debug" class="btn pixel-button">
+              Show Debug Panel
+            </a>
+            
+            <div id="debug-panel">
+              <div id="debug-status">Debug Panel</div>
+              <div id="debug-log"></div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -153,39 +172,39 @@
   
   <!-- Course Modal -->
   <div id="add-course-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content pixel-container">
       <span class="close">&times;</span>
       <h2>Add New Course</h2>
       
       <form id="add-course-form">
         <div class="form-group">
           <label for="course-name">Course Name*</label>
-          <input type="text" id="course-name" required>
+          <input type="text" id="course-name" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="course-code">Course Code*</label>
-          <input type="text" id="course-code" required>
+          <input type="text" id="course-code" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="course-credits">Credits*</label>
-          <input type="number" id="course-credits" min="1" max="12" required>
+          <input type="number" id="course-credits" class="pixel-input" min="1" max="12" required>
         </div>
         
         <div class="form-group">
           <label for="course-start">Start Date*</label>
-          <input type="date" id="course-start" required>
+          <input type="date" id="course-start" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="course-end">End Date*</label>
-          <input type="date" id="course-end" required>
+          <input type="date" id="course-end" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="course-status">Status*</label>
-          <select id="course-status" required>
+          <select id="course-status" class="pixel-input" required>
             <option value="planned">Planned</option>
             <option value="in_progress">In Progress</option>
             <option value="completed">Completed</option>
@@ -193,96 +212,96 @@
           </select>
         </div>
         
-        <button type="submit" class="btn btn-primary">Add Course</button>
+        <button type="submit" class="btn pixel-button">Add Course</button>
       </form>
     </div>
   </div>
   
   <!-- Assignment Modal -->
   <div id="add-assignment-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content pixel-container">
       <span class="close">&times;</span>
       <h2>Add New Assignment</h2>
       
       <form id="add-assignment-form">
         <div class="form-group">
           <label for="assignment-title">Assignment Title*</label>
-          <input type="text" id="assignment-title" required>
+          <input type="text" id="assignment-title" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="assignment-description">Description</label>
-          <textarea id="assignment-description" rows="3"></textarea>
+          <textarea id="assignment-description" class="pixel-input" rows="3"></textarea>
         </div>
         
         <div class="form-group">
           <label for="assignment-course">Course*</label>
-          <select id="assignment-course" required>
+          <select id="assignment-course" class="pixel-input" required>
             <option value="">Select a course</option>
           </select>
         </div>
         
         <div class="form-group">
           <label for="assignment-due">Due Date*</label>
-          <input type="date" id="assignment-due" required>
+          <input type="date" id="assignment-due" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="assignment-status">Status*</label>
-          <select id="assignment-status" required>
+          <select id="assignment-status" class="pixel-input" required>
             <option value="pending">Pending</option>
             <option value="submitted">Submitted</option>
             <option value="graded">Graded</option>
           </select>
         </div>
         
-        <button type="submit" class="btn btn-primary">Add Assignment</button>
+        <button type="submit" class="btn pixel-button">Add Assignment</button>
       </form>
     </div>
   </div>
   
   <!-- Exam Modal -->
   <div id="add-exam-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content pixel-container">
       <span class="close">&times;</span>
       <h2>Add New Exam</h2>
       
       <form id="add-exam-form">
         <div class="form-group">
           <label for="exam-title">Exam Title*</label>
-          <input type="text" id="exam-title" required>
+          <input type="text" id="exam-title" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="exam-description">Description</label>
-          <textarea id="exam-description" rows="3"></textarea>
+          <textarea id="exam-description" class="pixel-input" rows="3"></textarea>
         </div>
         
         <div class="form-group">
           <label for="exam-course">Course*</label>
-          <select id="exam-course" required>
+          <select id="exam-course" class="pixel-input" required>
             <option value="">Select a course</option>
           </select>
         </div>
         
         <div class="form-group">
           <label for="exam-date">Exam Date*</label>
-          <input type="datetime-local" id="exam-date" required>
+          <input type="datetime-local" id="exam-date" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="exam-duration">Duration (minutes)</label>
-          <input type="number" id="exam-duration" min="15" step="15">
+          <input type="number" id="exam-duration" class="pixel-input" min="15" step="15">
         </div>
         
         <div class="form-group">
           <label for="exam-location">Location</label>
-          <input type="text" id="exam-location">
+          <input type="text" id="exam-location" class="pixel-input">
         </div>
         
         <div class="form-group">
           <label for="exam-status">Status*</label>
-          <select id="exam-status" required>
+          <select id="exam-status" class="pixel-input" required>
             <option value="upcoming">Upcoming</option>
             <option value="completed">Completed</option>
             <option value="passed">Passed</option>
@@ -292,41 +311,41 @@
         
         <div class="form-group exam-grade-container">
           <label for="exam-grade">Grade</label>
-          <input type="number" id="exam-grade" min="1.0" max="5.0" step="0.1">
+          <input type="number" id="exam-grade" class="pixel-input" min="1.0" max="5.0" step="0.1">
         </div>
         
-        <button type="submit" class="btn btn-primary">Add Exam</button>
+        <button type="submit" class="btn pixel-button">Add Exam</button>
       </form>
     </div>
   </div>
   
   <!-- Material Modal -->
   <div id="add-material-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content pixel-container">
       <span class="close">&times;</span>
       <h2>Add Learning Material</h2>
       
       <form id="add-material-form">
         <div class="form-group">
           <label for="material-title">Title*</label>
-          <input type="text" id="material-title" required>
+          <input type="text" id="material-title" class="pixel-input" required>
         </div>
         
         <div class="form-group">
           <label for="material-description">Description</label>
-          <textarea id="material-description" rows="3"></textarea>
+          <textarea id="material-description" class="pixel-input" rows="3"></textarea>
         </div>
         
         <div class="form-group">
           <label for="material-course">Course*</label>
-          <select id="material-course" required>
+          <select id="material-course" class="pixel-input" required>
             <option value="">Select a course</option>
           </select>
         </div>
         
         <div class="form-group">
           <label for="material-type">Type*</label>
-          <select id="material-type" required>
+          <select id="material-type" class="pixel-input" required>
             <option value="book">Book</option>
             <option value="article">Article</option>
             <option value="video">Video</option>
@@ -338,7 +357,7 @@
         
         <div class="form-group">
           <label for="material-url">URL</label>
-          <input type="url" id="material-url">
+          <input type="url" id="material-url" class="pixel-input">
         </div>
         
         <div class="form-group">
@@ -348,12 +367,22 @@
           </label>
         </div>
         
-        <button type="submit" class="btn btn-primary">Add Material</button>
+        <button type="submit" class="btn pixel-button">Add Material</button>
       </form>
     </div>
   </div>
   
   <!-- JavaScript Modules -->
   <script type="module" src="js/main.js"></script>
+  
+  <!-- Initialize 3D Pixelated UI -->
+  <script type="module">
+    import { initialize3DEffects } from './js/ui/3d-effects.js';
+    import { initializePixelCharts } from './js/ui/pixelated-charts.js';
+    
+    // Initialize 3D effects and pixelated charts
+    initialize3DEffects();
+    initializePixelCharts();
+  </script>
 </body>
 </html>

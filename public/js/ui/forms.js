@@ -77,11 +77,15 @@ export function initFormHandlers() {
       e.preventDefault();
       logDebug('Exam form submitted');
       
-      // Extract form data - removed description field since it's not in our DB
+      // Get the exam date value
+      const examDateInput = document.getElementById('exam-date').value;
+      logDebug(`Raw exam date from form: ${examDateInput}`);
+      
+      // Extract form data with the correct field name (date)
       const formData = {
         title: document.getElementById('exam-title').value,
         course_id: parseInt(document.getElementById('exam-course').value),
-        exam_date: document.getElementById('exam-date').value,
+        date: examDateInput, // This must match the database column name in your API
         duration: document.getElementById('exam-duration').value || null,
         location: document.getElementById('exam-location').value,
         status: document.getElementById('exam-status').value
@@ -91,6 +95,10 @@ export function initFormHandlers() {
       if (formData.status === 'passed' || formData.status === 'failed') {
         formData.grade = document.getElementById('exam-grade').value || null;
       }
+      
+      // Debug log the final data
+      logDebug('Exam data to be submitted:');
+      logDebug(JSON.stringify(formData));
       
       // Validate form data
       if (validateExamForm(formData)) {
@@ -173,7 +181,7 @@ function validateAssignmentForm(data) {
 
 // Validate exam form
 function validateExamForm(data) {
-  if (!data.title || !data.course_id || !data.exam_date) {
+  if (!data.title || !data.course_id || !data.date) { // Updated to match the date field name
     alert('Please fill all required fields');
     return false;
   }
@@ -230,4 +238,4 @@ function isValidURL(url) {
   } catch (e) {
     return false;
   }
-} 
+}
